@@ -1,0 +1,108 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        (request.auth.token.email == 'haripriya.0251mba497@dgu.ac.in' && request.auth.token.email_verified == true) ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isValidCustomerInterest(data) {
+      return data.keys().hasAll(['name', 'email', 'phone', 'location']) &&
+        data.keys().hasOnly([
+          'name', 'email', 'phone', 'location', 'ageGroup',
+          'currentlyUsesCleaner', 'currentBrand', 'ecoFriendlinessImportance',
+          'willingnessToTry', 'preferredBuyingFactor', 'createdAt'
+        ]) &&
+        data.name is string && data.name.size() >= 2 && data.name.size() <= 100 &&
+        data.email is string && data.email.size() <= 120 &&
+        data.phone is string && data.phone.size() <= 30 &&
+        data.location is string && data.location.size() <= 120;
+    }
+
+    function isValidProductFeedback(data) {
+      return data.keys().hasAll(['customerName', 'effectivenessRating', 'overallSatisfaction']) &&
+        data.keys().hasOnly([
+          'customerName', 'effectivenessRating', 'easeOfUseRating',
+          'fragranceRating', 'packagingRating', 'priceValueRating',
+          'overallSatisfaction', 'repurchaseIntention', 'recommendation',
+          'likedMost', 'improvementSuggestion', 'createdAt'
+        ]) &&
+        data.customerName is string && data.customerName.size() >= 2 && data.customerName.size() <= 100 &&
+        data.effectivenessRating is number && data.effectivenessRating >= 1 && data.effectivenessRating <= 5 &&
+        data.overallSatisfaction is number && data.overallSatisfaction >= 1 && data.overallSatisfaction <= 5;
+    }
+
+    function isValidTrial(data) {
+      return data.keys().hasAll(['customerName', 'trialDate', 'trialStatus', 'purchased']) &&
+        data.customerName is string && data.customerName.size() >= 2 && data.customerName.size() <= 100 &&
+        data.trialStatus is string && data.trialStatus.size() <= 50 &&
+        data.purchased is bool;
+    }
+
+    function isValidPurchase(data) {
+      return data.keys().hasAll(['customerName', 'quantity', 'sellingPrice', 'totalAmount', 'purchaseDate']) &&
+        data.customerName is string && data.customerName.size() >= 2 && data.customerName.size() <= 100 &&
+        data.quantity is number && data.quantity > 0 &&
+        data.sellingPrice is number && data.sellingPrice >= 0 &&
+        data.totalAmount is number && data.totalAmount >= 0;
+    }
+
+    // Customer Interests (Contains PII - Phone & Email)
+    match /customer_interests/{interestId} {
+      allow create: if isValidCustomerInterest(incoming());
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Product Feedback (Ratings & Testimonials)
+    match /product_feedback/{feedbackId} {
+      allow create: if isValidProductFeedback(incoming());
+      allow read: if true;
+      allow update, delete: if isAdmin();
+    }
+
+    // Trials (Internal Operations)
+    match /trials/{trialId} {
+      allow read, write: if isAdmin();
+    }
+
+    // Purchases (Financial Sales Data)
+    match /purchases/{purchaseId} {
+      allow read, write: if isAdmin();
+    }
+
+    // Metrics / Aggregates (Realtime totals for dashboard)
+    match /metrics/{metricId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Admins collection for RBAC
+    match /admins/{adminId} {
+      allow read, write: if isAdmin();
+    }
+  }
+}

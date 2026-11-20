@@ -1,0 +1,266 @@
+{
+  "entities": {
+    "CustomerInterest": {
+      "title": "CustomerInterest",
+      "description": "Customer lead interested in trying EcoClean sustainable cleaner",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100,
+          "description": "Full name of the interested customer"
+        },
+        "ageGroup": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Age group category of the customer"
+        },
+        "location": {
+          "type": "string",
+          "maxLength": 120,
+          "description": "City or locality of the customer"
+        },
+        "email": {
+          "type": "string",
+          "maxLength": 120,
+          "description": "Customer email address"
+        },
+        "phone": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Customer contact number"
+        },
+        "currentlyUsesCleaner": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Whether customer currently uses surface cleaners"
+        },
+        "currentBrand": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Existing brand used by customer"
+        },
+        "ecoFriendlinessImportance": {
+          "type": "number",
+          "description": "Importance score of eco-friendliness from 1 to 5"
+        },
+        "willingnessToTry": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Customer willingness to try EcoClean"
+        },
+        "preferredBuyingFactor": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Primary deciding factor when buying cleaners"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when lead was submitted"
+        }
+      },
+      "required": [
+        "name",
+        "email",
+        "phone",
+        "location",
+        "createdAt"
+      ]
+    },
+    "ProductFeedback": {
+      "title": "ProductFeedback",
+      "description": "Customer feedback and satisfaction ratings after using EcoClean",
+      "type": "object",
+      "properties": {
+        "customerName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100,
+          "description": "Customer's name"
+        },
+        "effectivenessRating": {
+          "type": "number",
+          "description": "Cleaning effectiveness rating 1-5"
+        },
+        "easeOfUseRating": {
+          "type": "number",
+          "description": "Ease of use rating 1-5"
+        },
+        "fragranceRating": {
+          "type": "number",
+          "description": "Fragrance rating 1-5"
+        },
+        "packagingRating": {
+          "type": "number",
+          "description": "Packaging quality rating 1-5"
+        },
+        "priceValueRating": {
+          "type": "number",
+          "description": "Price/value perception rating 1-5"
+        },
+        "overallSatisfaction": {
+          "type": "number",
+          "description": "Overall satisfaction rating 1-5"
+        },
+        "repurchaseIntention": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Intention to repurchase (Yes, Maybe, No)"
+        },
+        "recommendation": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Willingness to recommend to friends (Yes, Maybe, No)"
+        },
+        "likedMost": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "What the customer liked most about EcoClean"
+        },
+        "improvementSuggestion": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Suggestions for product improvement"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when feedback was submitted"
+        }
+      },
+      "required": [
+        "customerName",
+        "effectivenessRating",
+        "overallSatisfaction",
+        "createdAt"
+      ]
+    },
+    "Trial": {
+      "title": "Trial",
+      "description": "Recorded customer trial test of EcoClean",
+      "type": "object",
+      "properties": {
+        "customerName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100,
+          "description": "Customer participating in trial"
+        },
+        "trialDate": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Date when trial was provided"
+        },
+        "trialStatus": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Status of the trial (Active, Completed, Converted, Dropped)"
+        },
+        "purchased": {
+          "type": "boolean",
+          "description": "Whether the trial converted to a purchase"
+        },
+        "purchasePrice": {
+          "type": "number",
+          "description": "Selling price if purchased"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation timestamp"
+        }
+      },
+      "required": [
+        "customerName",
+        "trialDate",
+        "trialStatus",
+        "purchased",
+        "createdAt"
+      ]
+    },
+    "Purchase": {
+      "title": "Purchase",
+      "description": "Recorded customer sale of EcoClean",
+      "type": "object",
+      "properties": {
+        "customerName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100,
+          "description": "Name of buyer"
+        },
+        "quantity": {
+          "type": "number",
+          "description": "Units purchased"
+        },
+        "sellingPrice": {
+          "type": "number",
+          "description": "Unit selling price in INR"
+        },
+        "totalAmount": {
+          "type": "number",
+          "description": "Total order amount in INR"
+        },
+        "purchaseDate": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Date of transaction"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation timestamp"
+        }
+      },
+      "required": [
+        "customerName",
+        "quantity",
+        "sellingPrice",
+        "totalAmount",
+        "purchaseDate",
+        "createdAt"
+      ]
+    },
+    "MetricsSummary": {
+      "title": "MetricsSummary",
+      "description": "Aggregated real-time metrics for customer validation pulse",
+      "type": "object",
+      "properties": {
+        "totalInterests": { "type": "number" },
+        "totalTrials": { "type": "number" },
+        "totalPurchases": { "type": "number" },
+        "sumEffectiveness": { "type": "number" },
+        "sumSatisfaction": { "type": "number" },
+        "sumPriceValue": { "type": "number" },
+        "feedbackCount": { "type": "number" },
+        "repurchaseIntentionCount": { "type": "number" },
+        "recommendationCount": { "type": "number" },
+        "updatedAt": { "type": "string" }
+      }
+    }
+  },
+  "firestore": {
+    "/customer_interests/{interestId}": {
+      "schema": "CustomerInterest",
+      "description": "Customer interest submissions with PII - Admin read only, public create"
+    },
+    "/product_feedback/{feedbackId}": {
+      "schema": "ProductFeedback",
+      "description": "Customer feedback and ratings - Public create, admin read/write"
+    },
+    "/trials/{trialId}": {
+      "schema": "Trial",
+      "description": "EcoClean customer product trials - Admin only"
+    },
+    "/purchases/{purchaseId}": {
+      "schema": "Purchase",
+      "description": "EcoClean customer sales and orders - Admin only"
+    },
+    "/metrics/{metricId}": {
+      "schema": "MetricsSummary",
+      "description": "Live non-PII metrics summary for real-time dashboard stats"
+    },
+    "/admins/{adminId}": {
+      "schema": { "$ref": "#/entities/MetricsSummary" },
+      "description": "Admin access control list documents"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "EcoClean - Sustainable Cleaning Validation Platform",
+  "description": "EcoClean customer validation, trial tracking, and feedback analytics powered by Firebase Firestore.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
